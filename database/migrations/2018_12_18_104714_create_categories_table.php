@@ -23,7 +23,7 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
            $table->increments('id');
            $table->string('category',50);
-           $table->integer('status_id')->default('0');
+           $table->integer('status_id')->default(1);
            $table->integer('attempted')->default('0');
            $table->text('image_url',150);
            $table->timestamp('submitted_timestamp')->useCurrent();

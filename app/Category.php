@@ -8,4 +8,6 @@ class Category extends Model
 {
 	public $timestamps = false;
     protected $fillable = ["category", "image_url"];
+
+    return $this->belongsTo(Statuses::class);
 }
