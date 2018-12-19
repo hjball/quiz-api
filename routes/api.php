@@ -48,3 +48,8 @@ $router->group(["prefix" => "quiz"], function ($router) {
     $router->post("{cat_id}", "QuizesActive@store");
     // $router->get("", "Categories@index");
 });
+
+$router->group(["prefix" => "question"], function ($router){
+    $router->post("{category}", "Questions@store");
+    $router->get("", "Questions@index");
+});

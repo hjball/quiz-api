@@ -9,8 +9,9 @@ class Category extends Model
 	public $timestamps = false;
     protected $fillable = ["category", "image_url"];
 
-    // public function category()
-    // {
-    // 	return $this->belongsTo(Statuses::class);
-    // }
+    // return $this->belongsTo(Statuses::class);
+    public function questions (){
+        return $this->hasMany(Question::class);
+    }
 }
+
