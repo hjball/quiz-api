@@ -45,9 +45,11 @@ $router->group(["prefix" => "quiz"], function ($router) {
     // use the post method
     // when the use request /articles - don't need the forward slash
     // which will call the store method of the Articles controller
-    $router->post("{cat_id}", "QuizesActive@store");
-    // $router->get("", "Categories@index");
+    $router->post("", "QuizActives@store");
+    $router->get("", "Categories@index");
 });
+
+
 
 $router->group(["prefix" => "questions"], function ($router){
     $router->post("{category}", "Questions@store");

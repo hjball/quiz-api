@@ -25,18 +25,58 @@ class QuizActives extends Controller
      */
     public function store(Request $request)
     {
+        return 
+
+        // Get the category instance
+        // $category = Category::find($request->cat_id)
+
+        // get all questions from the category
+        // $questions = $category->questions
+
+        // sort based on column (attempted)
+
+        // take 2 least attempted questions
+
+        // generate unique quiz id
+        // iterate over questions and create a record in quiz active for each one
+
+        QuizActive::create(
+            [
+                "key" => "value",
+                ...
+            ]
+        );
+
+        $response = [
+            "questions" => $questions->toArray()
+            "questions" => new QuestionResource($questions)
+        ]
+
+        return json_encode([    ])
+
+
      // Get the Category ID the quiz rquested for
-        $cat_id = $request->only(["cat_id"]);
+        // $cat_id = $request->only(["cat_id"]);
 
-        //Get all the questions for the Cat_ID
-        $questions = DB::table('categories')
-            ->join('questions', 'categories.id', '=', 'questions.cat_id')
-            ->select('categories.category', 'questions.*')
-            ->where('categories.id', $cat_id)
-            ->orderByRaw('questions.attempted ASC')
-            ->get();
+        // QuizActive::getQuestions($cat_id);
 
+        // //Get all the questions for the Cat_ID
+        // $questions = DB::table('categories')
+        //     ->join('questions', 'categories.id', '=', 'questions.cat_id')
+        //     ->select('categories.category', 'questions.*')
+        //     ->where('categories.id', $cat_id)
+        //     ->orderByRaw('questions.attempted ASC')
+        //     ->get();
 
+            $questions = [ 'id' => 1,
+                       'cat_id' => 2,
+                       'category' => "category name",
+                   'question' => "Question 1",
+                     'right_answer' => "right answer 1",
+                    'wrong_answer_1' => "wrong answer 1",
+                   "wrong_answer_2" => "wrong_answer 2",
+                   "wrong_answer_3" => "wrong_answer 3"];
+        
 
         // //Get all the questions for the Cat_ID
         // $secs_per_question = DB::table('config')
@@ -48,7 +88,7 @@ class QuizActives extends Controller
         //     ->get();  
 
         $secs_per_question = 10;
-        $questions_per_quiz = 3;          
+        $questions_per_quiz = 1;          
 
     //output= {
         // 'quiz_id': "",
@@ -66,42 +106,39 @@ class QuizActives extends Controller
         // ]
         //}
 
-        $quiz_id = time(now).(rand(0, getrandmax() ) );  
-        $idx = 0;
+        $quiz_id = time(now).(rand(0, getrandmax() ) );
+       $idx = 0;
 
-        //Build Output  
-        $output['quiz_id']              = $quiz_id;
-        $output['cat_id']               = $questions.cat_id;
-        $output['category']             = $questions.category;
-        $output['no_of_questions']      = $questions_per_quiz;
-        $output['seconds_per_question'] = $secs_per_question;
+       //Build Output
+       $output['quiz_id']              = $quiz_id;
+       $output['no_of_questions']      = $questions_per_quiz;
+       $output['seconds_per_question'] = $secs_per_question;
+       $output['cat_id']               = null;
+       $output['category']             = null;
+       $output['questions']            = [];
 
-        foreach ($questions as $question) {
-            
-            //Generate a random no between 1 - 4 to determine where the right
-            //answer is placed.
-            $rand_answer = floor(rand(1,4));
-            $output['questions'] = [];
-            
-                        $output['questions'][] = [['quest_id'] = $question.id,
-                                                ['question'] = $question.question,
-                                                ['answer1'] = $question.wrong_answer_1,
-                                                ['answer2'] = $question.right_answer,
-                                                ['answer3'] = $question.wrong_answer_2,
-                                                ['answer4'] = $question.wrong_answer_3
-                                                ];
-                    // $idx += 1;
+       foreach ($questions as $question) {
+           $output['cat_id']               = $question.cat_id;
+           $output['category']             = $question.category;
 
-                    DB::table('quizesactive')->insert(
-                        [ 'quiz_id'  => $output.quiz_id,
-                          'cat_id'   => $question.cat_id,
-                          'quest_id' => $question.id,
-                          'right_answer' => 2,
-                        ]
-                    );
+           //Generate a random no between 1 - 4 to determine where the right
+           //answer is placed.
+           $rand_answer = floor(rand(1,4));
+           $output['questions'] = [];
+
+           //Build the question array row
+           $array= ['quest_id' => $question.id,
+                    'question' => $question.question,
+                    'answer1'  => $question.wrong_answer_1,
+                    'answer2'  => $question.right_answer,
+                    'answer3'  => $question.wrong_answer_2,
+                    'answer4'  => $question.wrong_answer_3
+                   ];
+           //Add the new question array row to the outoput array of questions
+           $output.questions = array_prepend($output.questions, $array);
 
                     //returns the db id of the uiz record inserted
-                    // $id = DB::table('quizesactive')->insertGetId(
+                    // $id = DB::table('quiz_actives')->insertGetId(
                     //     [ 'quiz_id'  => $output.quiz_id,
                     //       'cat_id'   => $question.cat_id,
                     //       'quest_id' => $question.id,
@@ -122,7 +159,7 @@ class QuizActives extends Controller
 
             //         $idx += 1;
 
-            //         DB::table('quizesactive')->insert(
+            //         DB::table('quiz_actives')->insert(
             //             [ 'quiz_id'  => $output.quiz_id,
             //               'cat_id'  => $question.cat_id,
             //               'quest_id' => $question.id,
@@ -141,7 +178,7 @@ class QuizActives extends Controller
 
             //         $idx += 1;
 
-            //         DB::table('quizesactive')->insert(
+            //         DB::table('quiz_actives')->insert(
             //             [ 'quiz_id'  => $output.quiz_id,
             //               'cat_id'   => $question.cat_id,
             //               'quest_id' => $question.id,
@@ -161,7 +198,7 @@ class QuizActives extends Controller
 
             //         $idx += 1;
 
-            //         DB::table('quizesactive')->insert(
+            //         DB::table('quiz_actives')->insert(
             //             [ 'quiz_id' => $output.quiz_id,
             //               'cat_id' => $question.cat_id,
             //               'quest_id' => $question.id,
@@ -181,7 +218,7 @@ class QuizActives extends Controller
 
             //         $idx += 1;
 
-            //         DB::table('quizesactive')->insert(
+            //         DB::table('quiz_actives')->insert(
             //             [ 'quiz_id'  => $output.quiz_id,
             //               'cat_id'   => $question.cat_id,
             //               'quest_id' => $question.id,
@@ -201,7 +238,7 @@ class QuizActives extends Controller
 
             //         $idx += 1;
 
-            //         DB::table('quizesactive')->insert(
+            //         DB::table('quiz_actives')->insert(
             //             [ 'quiz_id'  => $output.quiz_id,
             //               'cat_id'   => $question.cat_id,
             //               'quest_id' => $question.id,
