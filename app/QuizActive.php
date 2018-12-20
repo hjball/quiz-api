@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class QuizActive extends Model
 {
 	public $timestamps = false;
-    protected $fillable = ["cat_id", "quest_id", "right_answer", "no_of_questions", "no_of_seconds"];
+    protected $fillable = ["category_id", "question_id", "right_answer", "no_of_questions", "no_of_seconds", "quiz_id"];
 
 
 
@@ -15,7 +15,7 @@ class QuizActive extends Model
 
         // $output = `getQuestions for - ${cat_id}`;
     
-      return {`getQuestions for - ${cat_id}`};
+    //   return {`getQuestions for - ${cat_id}`};
     }
 
 }
