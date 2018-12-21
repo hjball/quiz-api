@@ -34,6 +34,23 @@ class CategoriesTableSeeder extends Seeder
             'status_id' => 1,
             'attempted' => 0,
             'image_url' => 'testurlnull',
-        ]);        
+        ]);       
+
+        DB::table('categories')->insert([
+        	'id' => 4,        	
+            'category' => 'Music',
+            'status_id' => 1,
+            'attempted' => 0,
+            'image_url' => 'testurlnull',
+        ]);    
+
+        DB::table('categories')->insert([
+        	'id' => 5,        	
+            'category' => 'History',
+            'status_id' => 1,
+            'attempted' => 0,
+            'image_url' => 'testurlnull',
+        ]);    
+
     }
 }
