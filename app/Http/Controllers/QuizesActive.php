@@ -14,17 +14,16 @@ class QuizActives extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $category = Category::find($request->cat_id);
+
+        $questions = $category->Questions->random(2);
+
+        return $questions;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+  
     public function store(Request $request)
     {
         $category = Category::find($request->cat_id);
@@ -34,14 +33,12 @@ class QuizActives extends Controller
         
       
 
-        $questions->each(function ($question){
+        $reduced_questions = $questions->each(function ($array, $question){
             
-
-           
             $random = collect([1,2,3,4]);
             $ran_answer = $random->random();
             
-           QuizActive::create(
+            $question =  QuizActive::create(
                [
                    //"key" => "value",
                    'quiz_id' => 10,
@@ -53,10 +50,16 @@ class QuizActives extends Controller
                    'no_of_seconds' => 10
                ]
            );
+
+           $array[] = $question;
+
+           return $array;
            
        });
 
-        return ($questions);
+
+
+        return $reduced_questions;
 
     }
 
